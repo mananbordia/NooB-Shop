@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:noob_shop/models/product.dart';
+import 'package:noob_shop/providers/products.dart';
 import 'package:noob_shop/screens/productDetailPage.dart';
+import 'package:provider/provider.dart';
 
 class ProductItem extends StatefulWidget {
   @override
   _ProductItemState createState() => _ProductItemState();
-
-  /// Reminder : Using product as final variable can be wrong as isFav is changed
-  final Product product;
-  ProductItem({this.product});
+  final String prodId;
+  ProductItem({this.prodId});
 }
 
 class _ProductItemState extends State<ProductItem> {
   bool isFavorite = false;
 
   @override
-  void initState() {
-    isFavorite = widget.product.isFavorite;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    /// listen : false means build() would not run if there is any change in Products
+    final Product prodItem = Provider.of<Products>(context, listen: false)
+        .findItemById(widget.prodId);
     return Card(
       color: Colors.red,
       elevation: 50,
       child: GridTile(
-        child: GestureDetector(
-          onTap: goToProductDetailPage,
-          child: Image.network(
-            widget.product.imageUrl,
-            fit: BoxFit.cover,
+        child: Hero(
+          tag: prodItem.id,
+          child: GestureDetector(
+            onTap: goToProductDetailPage,
+            child: Image.network(
+              prodItem.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
 
@@ -38,7 +38,7 @@ class _ProductItemState extends State<ProductItem> {
         footer: GridTileBar(
           backgroundColor: Colors.black54,
           title: Text(
-            widget.product.title,
+            prodItem.title,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 18),
           ),
@@ -57,13 +57,15 @@ class _ProductItemState extends State<ProductItem> {
 
   goToProductDetailPage() {
     Navigator.pushNamed(context, ProductDetailPage.routeName,
-        arguments: widget.product);
+        arguments: widget.prodId);
   }
 
   void flipFavorite() {
     setState(() {
       isFavorite = !isFavorite;
-      widget.product.isFavorite = isFavorite;
+
+      /// TODO: Modify _items of Products Provider
+//      product.isFavorite = isFavorite;
     });
   }
 }

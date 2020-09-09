@@ -15,7 +15,7 @@ class Products with ChangeNotifier {
     ),
     Product(
       id: 'p2',
-      title: 'Red Shirt',
+      title: 'Blue Shirt',
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
@@ -23,7 +23,7 @@ class Products with ChangeNotifier {
     ),
     Product(
       id: 'p3',
-      title: 'Red Shirt',
+      title: 'Purple Shirt',
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
@@ -31,7 +31,7 @@ class Products with ChangeNotifier {
     ),
     Product(
       id: 'p4',
-      title: 'Red Shirt',
+      title: 'Yellow Shirt',
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
@@ -44,6 +44,10 @@ class Products with ChangeNotifier {
     /// Don't use - > {return _items} as this passes reference to _items which is harmful
     /// Instead Pass a copy of _items
     return [..._items]; // ignore: sdk_version_ui_as_code
+  }
+
+  Product findItemById(String id) {
+    return _items.firstWhere((xItem) => xItem.id == id);
   }
 
   void addProduct() {

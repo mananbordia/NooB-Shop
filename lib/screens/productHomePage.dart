@@ -24,7 +24,7 @@ class _ProductHomepageState extends State<ProductHomepage> {
             mainAxisSpacing: 10,
           ),
           itemBuilder: (ctx, index) => ProductItem(
-            product: products.items[index],
+            prodId: products.items[index].id,
           ),
           itemCount: products.items.length,
         ));
