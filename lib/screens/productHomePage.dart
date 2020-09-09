@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:noob_shop/data/dumProductsData.dart';
+import 'package:noob_shop/providers/products.dart';
 import 'package:noob_shop/widgets/productItem.dart';
+import 'package:provider/provider.dart';
 
 class ProductHomepage extends StatefulWidget {
   @override
@@ -8,10 +9,11 @@ class ProductHomepage extends StatefulWidget {
 }
 
 class _ProductHomepageState extends State<ProductHomepage> {
-  final prodData = dummyProductData;
-
   @override
   Widget build(BuildContext context) {
+    /// Gives and object of Products class
+    final products = Provider.of<Products>(context);
+
     return Scaffold(
         appBar: AppBar(title: Text("Noob Shop")),
         body: GridView.builder(
@@ -22,9 +24,9 @@ class _ProductHomepageState extends State<ProductHomepage> {
             mainAxisSpacing: 10,
           ),
           itemBuilder: (ctx, index) => ProductItem(
-            product: prodData[index],
+            product: products.items[index],
           ),
-          itemCount: prodData.length,
+          itemCount: products.items.length,
         ));
   }
 }
