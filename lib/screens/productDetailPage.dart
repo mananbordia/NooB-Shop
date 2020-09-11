@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noob_shop/models/product.dart';
+import 'package:noob_shop/providers/product.dart';
 import 'package:noob_shop/providers/products.dart';
 import 'package:provider/provider.dart';
 
@@ -8,8 +8,7 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Currently it gives Product -> Change it to id
-    final String prodId = ModalRoute.of(context).settings.arguments;
+    final prodId = ModalRoute.of(context).settings.arguments;
 
     /// listen : false means build() would not run if there is any change in Products
     final Product prodItem =
@@ -18,15 +17,17 @@ class ProductDetailPage extends StatelessWidget {
       /// Way to get product metadata is very badly implemented
       /// Try extracting data from id
       appBar: AppBar(title: Text(prodItem.title)),
-      body: Column(children: <Widget>[
-        Hero(
-            tag: prodItem.id,
-            child: Image.network(
-              prodItem.imageUrl,
-              fit: BoxFit.cover,
-            )),
-        Text(prodItem.description),
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Hero(
+              tag: prodItem.id,
+              child: Image.network(
+                prodItem.imageUrl,
+                fit: BoxFit.cover,
+              )),
+          Text(prodItem.description),
+        ]),
+      ),
     );
   }
 }

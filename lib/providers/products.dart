@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noob_shop/models/product.dart';
+import 'package:noob_shop/providers/product.dart';
 
 class Products with ChangeNotifier {
   /// _items is made private so that it can't be accessed from other pages.
@@ -44,6 +44,12 @@ class Products with ChangeNotifier {
     /// Don't use - > {return _items} as this passes reference to _items which is harmful
     /// Instead Pass a copy of _items
     return [..._items]; // ignore: sdk_version_ui_as_code
+  }
+
+  List<Product> get favoriteItems {
+    return _items
+        .where((xItem) => xItem.isFavorite)
+        .toList(); // ignore: sdk_version_ui_as_code
   }
 
   Product findItemById(String id) {
