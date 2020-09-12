@@ -29,7 +29,31 @@ class _CartItemState extends State<CartItem> {
       direction: DismissDirection.endToStart,
       onDismissed: (direc) {
         print(widget.id);
-        return cart.removeItem(widget.id);
+        return cart.removeEntireItem(widget.id);
+      },
+      confirmDismiss: (_) {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: Text("Are you sure ?"),
+                  content:
+                      Text("Do you want to remove this item from the cart ? "),
+                  actions: <Widget>[
+                    FlatButton(
+                        child: Text("No"),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        }),
+                    FlatButton(
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        })
+                  ],
+                ));
       },
       key: ValueKey(widget.id),
       background: Container(
@@ -73,17 +97,16 @@ class _CartItemState extends State<CartItem> {
                   height: 35,
                   child: FittedBox(
                     child: FloatingActionButton(
-                      heroTag: widget.id + "1",
-                      backgroundColor: Theme.of(context).primaryColor,
-                      shape: CircleBorder(),
-                      child: Text(
-                        "-",
-                        style: TextStyle(fontSize: 40),
-                      ),
-                      onPressed: (widget.quantity > 1)
-                          ? () => {cart.decQuant(widget.id)}
-                          : null,
-                    ),
+                        heroTag: widget.id + "1",
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: CircleBorder(),
+                        child: Text(
+                          "-",
+                          style: TextStyle(fontSize: 40),
+                        ),
+                        onPressed: () => widget.quantity > 1
+                            ? {cart.decQuant(widget.id)}
+                            : null),
                   ),
                 )
               ],

@@ -39,10 +39,24 @@ class _ProductItemState extends State<ProductItem> {
             style: TextStyle(fontSize: 18),
           ),
           leading: IconButton(
-            icon: Icon(Icons.add_shopping_cart),
-            onPressed: () => cart.addItem(
-                prodItem.id, prodItem.title, prodItem.price, prodItem.imageUrl),
-          ),
+              icon: Icon(Icons.add_shopping_cart),
+
+              /// Add Item and show Snackbar
+              onPressed: () {
+                cart.addItem(prodItem.id, prodItem.title, prodItem.price,
+                    prodItem.imageUrl);
+                Scaffold.of(context).removeCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  content: Text("Item added to Cart"),
+                  action: SnackBarAction(
+                    label: "UNDO",
+                    textColor: Colors.yellow,
+                    onPressed: () => {cart.removeItem(prodItem.id)},
+                  ),
+                  duration: Duration(seconds: 2),
+                ));
+              }),
           trailing: Consumer<Product>(
             builder: (_, prodItem, __) => IconButton(
               icon: Icon(

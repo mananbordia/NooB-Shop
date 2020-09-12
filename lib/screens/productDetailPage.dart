@@ -17,6 +17,7 @@ class ProductDetailPage extends StatelessWidget {
       /// Way to get product metadata is very badly implemented
       /// Try extracting data from id
       appBar: AppBar(title: Text(prodItem.title)),
+
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           Hero(

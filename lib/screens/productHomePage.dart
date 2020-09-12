@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:noob_shop/providers/cart.dart';
 import 'package:noob_shop/providers/products.dart';
 import 'package:noob_shop/screens/cartPage.dart';
+import 'package:noob_shop/screens/orderPage.dart';
 import 'package:noob_shop/widgets/badge.dart';
+import 'package:noob_shop/widgets/customDrawer.dart';
 import 'package:noob_shop/widgets/productItem.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +28,9 @@ class _ProductHomepageState extends State<ProductHomepage> {
         : Provider.of<Products>(context).items;
 
     return Scaffold(
+
+        /// Adding Drawer
+        drawer: CustomDrawer(),
         appBar: AppBar(title: Text("Noob Shop"), actions: <Widget>[
           Consumer<Cart>(
             child: IconButton(
@@ -68,5 +73,9 @@ class _ProductHomepageState extends State<ProductHomepage> {
 
   void goToCartPage() {
     Navigator.of(context).pushNamed(CartPage.routeName);
+  }
+
+  void goToOrderPage() {
+    Navigator.pushNamed(context, OrderPage.routeName);
   }
 }

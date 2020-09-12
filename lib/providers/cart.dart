@@ -16,7 +16,7 @@ class Cart with ChangeNotifier {
   }
 
   /// Removes the CartItem
-  void removeItem(String id) {
+  void removeEntireItem(String id) {
     _items.remove(id);
     notifyListeners();
   }
@@ -57,6 +57,21 @@ class Cart with ChangeNotifier {
     }
   }
 
+  /// Remove Items to Cart
+  void removeItem(String id) {
+    if (!_items.containsKey(id)) {
+      print("Your System has error : Check removeItem function in Cart.dart");
+      return;
+    } else {
+      if (_items[id].quantity == 1) {
+        removeEntireItem(id);
+      } else {
+        decQuant(id);
+      }
+      notifyListeners();
+    }
+  }
+
   /// Just Increase Quantity of an item
   void incQuant(String id) {
     _items.update(id, (xItem) {
@@ -82,6 +97,11 @@ class Cart with ChangeNotifier {
         imageUrl: xItem.imageUrl,
       );
     });
+    notifyListeners();
+  }
+
+  void removeAll() {
+    _items = {};
     notifyListeners();
   }
 }

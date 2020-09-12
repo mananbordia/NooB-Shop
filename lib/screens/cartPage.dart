@@ -1,6 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:noob_shop/providers/cart.dart';
+import 'package:noob_shop/providers/orders.dart';
+import 'package:noob_shop/screens/orderPage.dart';
 import 'package:noob_shop/widgets/cartItem.dart';
+import 'package:noob_shop/widgets/customDrawer.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatelessWidget {
@@ -9,6 +14,8 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+
+    final order = Provider.of<Order>(context);
 
     return Scaffold(
       appBar: AppBar(title: Text("Cart")),
@@ -48,7 +55,21 @@ class CartPage extends StatelessWidget {
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 18),
                           ),
-                          onPressed: () => {},
+
+                          /// When I press this cart Items should be added to Order's Page
+                          onPressed: cart.itemsCount > 0
+                              ? () {
+                                  order.addOrder(SingleOrder(
+                                    total: cart.totalAmount,
+                                    id: DateTime.now().toIso8601String(),
+                                    date: DateTime.now(),
+                                    items: cart.itemsAsList,
+                                  ));
+                                  cart.removeAll();
+                                  Navigator.pushNamed(
+                                      context, OrderPage.routeName);
+                                }
+                              : null,
                         )
                       ]))),
           Expanded(
