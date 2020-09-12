@@ -1,6 +1,6 @@
 # noob_shop
 
-Ecommerce shop for learning 
+Ecommerce App for learning 
 
 ## Getting Started
 
